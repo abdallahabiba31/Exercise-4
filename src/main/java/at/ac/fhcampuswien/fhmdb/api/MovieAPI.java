@@ -14,6 +14,7 @@ public class MovieAPI {
     private static final String URL = "http://prog2.fh-campuswien.ac.at/movies"; // https if certificates work
     private static final OkHttpClient client = new OkHttpClient();
 
+
     private String buildUrl(UUID id) {
         StringBuilder url = new StringBuilder(URL);
         if (id != null) {
@@ -23,29 +24,14 @@ public class MovieAPI {
     }
 
     private static String buildUrl(String query, Genre genre, String releaseYear, String ratingFrom) {
-        StringBuilder url = new StringBuilder(URL);
 
-        if ( (query != null && !query.isEmpty()) ||
-                genre != null || releaseYear != null || ratingFrom != null) {
-
-            url.append("?");
-
-            // check all parameters and add them to the url
-            if (query != null && !query.isEmpty()) {
-                url.append("query=").append(query).append(DELIMITER);
-            }
-            if (genre != null) {
-                url.append("genre=").append(genre).append(DELIMITER);
-            }
-            if (releaseYear != null) {
-                url.append("releaseYear=").append(releaseYear).append(DELIMITER);
-            }
-            if (ratingFrom != null) {
-                url.append("ratingFrom=").append(ratingFrom).append(DELIMITER);
-            }
-        }
-
-        return url.toString();
+        String url = new MovieAPIRequestBuilder(URL)
+                .query(query)
+                .genre(String.valueOf(genre))
+                .releaseYear(releaseYear)
+                .ratingFrom(ratingFrom)
+                .build();
+        return url;
     }
 
     public static List<Movie> getAllMovies() throws MovieApiException {

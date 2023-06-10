@@ -5,10 +5,30 @@ import com.j256.ormlite.dao.Dao;
 import java.util.List;
 
 public class WatchlistRepository {
+    private static WatchlistRepository instance;
+    private Dao<WatchlistMovieEntity, Long> dao;
 
-    Dao<WatchlistMovieEntity, Long> dao;
+    /*
+    public static WatchlistRepository getInstance() throws DataBaseException {
+        if (instance == null) {
+            synchronized (WatchlistRepository.class) {
+                if (instance == null) {
+                    instance = new WatchlistRepository();
+                }
+            }
+        }
+        return instance;
+    }*/
+    //synchronized: der Zugriff auf die Methode von mehreren Threads
+    // gleichzeitig wird blockiert
+    public static synchronized WatchlistRepository getInstance() throws DataBaseException {
+        if (instance == null) {
+            instance = new WatchlistRepository();
+        }
+        return instance;
+    }
 
-    public WatchlistRepository() throws DataBaseException {
+    private WatchlistRepository() throws DataBaseException {
         try {
             this.dao = DatabaseManager.getInstance().getWatchlistDao();
         } catch (Exception e) {
