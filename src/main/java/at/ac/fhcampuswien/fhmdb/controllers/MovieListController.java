@@ -60,12 +60,14 @@ public class MovieListController implements Initializable, Observer {
 
     @Override
     public void update(String message) {
-        if(message == "added"){
+        if(message == "Movie added to watchlist"){
             new Alert(Alert.AlertType.INFORMATION, "Movie was successfully added to the Watchlist", ButtonType.OK).show();
+
         } else {
             new Alert(Alert.AlertType.WARNING, "Movie is already in Watchlist!", ButtonType.OK).show();
         }
     }
+
 
 
     //protected SortedState sortedState;
