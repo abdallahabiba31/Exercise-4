@@ -14,6 +14,9 @@ public class AscendingState extends MovieState{
     public void sort() {
         currentStateData.observableMovies.sort(Comparator.comparing(Movie::getTitle));
         currentStateData.setState(new DescendingState(currentStateData));
+        /*
+        context.observableMovies.sort(Comparator.comparing(Movie::getTitle).reversed());
+        context.setState(new DescendingState(context));*/
     }
 
 

@@ -12,7 +12,7 @@ public class DescendingState extends MovieState{
     @Override
     public void sort() {
         currentStateData.observableMovies.sort(Comparator.comparing(Movie::getTitle).reversed());
-        currentStateData.setState(new DescendingState(currentStateData));
+        currentStateData.setState(new AscendingState(currentStateData));
 
     }
 }

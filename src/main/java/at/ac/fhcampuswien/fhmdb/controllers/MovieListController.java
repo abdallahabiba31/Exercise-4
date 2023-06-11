@@ -10,6 +10,7 @@ import at.ac.fhcampuswien.fhmdb.models.Genre;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import at.ac.fhcampuswien.fhmdb.models.SortedState;
 import at.ac.fhcampuswien.fhmdb.observerPattern.Observer;
+import at.ac.fhcampuswien.fhmdb.sortState.AscendingState;
 import at.ac.fhcampuswien.fhmdb.sortState.InitState;
 import at.ac.fhcampuswien.fhmdb.sortState.MovieState;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
@@ -67,8 +68,6 @@ public class MovieListController implements Initializable, Observer {
             new Alert(Alert.AlertType.WARNING, "Movie is already in Watchlist!", ButtonType.OK).show();
         }
     }
-
-
 
     //protected SortedState sortedState;
     private MovieState state;
@@ -252,7 +251,7 @@ public class MovieListController implements Initializable, Observer {
         }*/
         //Wenn nicht sortiert, dann soll es auch unsortiert bleiben
         if (!(state instanceof InitState)) {
-            new InitState(this).sort();
+            new AscendingState(this).sort();
         }
     }
 
