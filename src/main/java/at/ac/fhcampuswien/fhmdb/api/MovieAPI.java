@@ -10,7 +10,6 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class MovieAPI {
-    public static final String DELIMITER = "&";
     private static final String URL = "http://prog2.fh-campuswien.ac.at/movies"; // https if certificates work
     private static final OkHttpClient client = new OkHttpClient();
 

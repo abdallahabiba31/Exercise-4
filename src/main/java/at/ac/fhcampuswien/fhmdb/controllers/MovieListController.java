@@ -9,6 +9,7 @@ import at.ac.fhcampuswien.fhmdb.database.WatchlistRepository;
 import at.ac.fhcampuswien.fhmdb.models.Genre;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import at.ac.fhcampuswien.fhmdb.models.SortedState;
+import at.ac.fhcampuswien.fhmdb.observerPattern.Observer;
 import at.ac.fhcampuswien.fhmdb.sortState.InitState;
 import at.ac.fhcampuswien.fhmdb.sortState.MovieState;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
@@ -21,6 +22,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
@@ -29,7 +32,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class MovieListController implements Initializable {
+public class MovieListController implements Initializable, Observer {
     @FXML
     public JFXButton searchBtn;
 
@@ -55,6 +58,16 @@ public class MovieListController implements Initializable {
 
     public ObservableList<Movie> observableMovies = FXCollections.observableArrayList();
 
+    @Override
+    public void update(String message) {
+        if(message == "added"){
+            new Alert(Alert.AlertType.INFORMATION, "Movie was successfully added to the Watchlist", ButtonType.OK).show();
+        } else {
+            new Alert(Alert.AlertType.WARNING, "Movie is already in Watchlist!", ButtonType.OK).show();
+        }
+    }
+
+
     //protected SortedState sortedState;
     private MovieState state;
     public void setState(MovieState state){
@@ -74,8 +87,12 @@ public class MovieListController implements Initializable {
                     movie.getRating());
             try {
                 //WatchlistRepository repository = new WatchlistRepository();
-                WatchlistRepository repository = WatchlistRepository.getInstance();
-                repository.addToWatchlist(watchlistMovieEntity);
+
+                //WatchlistRepository repository = WatchlistRepository.getInstance();
+                //repository.addToWatchlist(watchlistMovieEntity);
+                //so weniger Code:
+                WatchlistRepository.getInstance().addToWatchlist(watchlistMovieEntity);
+
             } catch (DataBaseException e) {
                 UserDialog dialog = new UserDialog("Database Error", "Could not add movie to watchlist");
                 dialog.show();
@@ -88,6 +105,12 @@ public class MovieListController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeState();
         initializeLayout();
+        // add this as observer to WatchlistRepository
+        try {
+            WatchlistRepository.getInstance().addObserver(this);
+        } catch (DataBaseException e) {
+            e.printStackTrace();
+        }
     }
 
     public void initializeState() {
@@ -253,4 +276,6 @@ public class MovieListController implements Initializable {
         //sortMovies();
         state.sort();
     }
+
+
 }

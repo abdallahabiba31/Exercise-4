@@ -6,7 +6,8 @@ public class MovieAPIRequestBuilder {
     private String genre;
     private String releaseYear;
     private String ratingFrom;
-    private String id;
+
+    public static final String DELIMITER = "&";
 
     public MovieAPIRequestBuilder(String baseUrl) {
         this.baseUrl = baseUrl;
@@ -32,31 +33,27 @@ public class MovieAPIRequestBuilder {
         return this;
     }
 
-    public MovieAPIRequestBuilder id(String id) {
-        this.id = id;
-        return this;
-    }
-
     public String build() {
         StringBuilder urlBuilder = new StringBuilder(baseUrl);
 
-        if (id != null) {
-            urlBuilder.append("/").append(id);
+        if ((query != null && !query.isEmpty()) ||
+        genre != null || releaseYear != null || ratingFrom != null) {
+            urlBuilder.append("?");
         } else {
             if (query != null) {
-                urlBuilder.append("?query=").append(query);
+                urlBuilder.append("query=").append(query).append(DELIMITER);
             }
 
             if (genre != null) {
-                urlBuilder.append("&genre=").append(genre);
+                urlBuilder.append("genre=").append(genre).append(DELIMITER);
             }
 
             if (releaseYear != null) {
-                urlBuilder.append("&releaseYear=").append(releaseYear);
+                urlBuilder.append("releaseYear=").append(releaseYear).append(DELIMITER);
             }
 
             if (ratingFrom != null) {
-                urlBuilder.append("&ratingFrom=").append(ratingFrom);
+                urlBuilder.append("ratingFrom=").append(ratingFrom).append(DELIMITER);
             }
         }
 
