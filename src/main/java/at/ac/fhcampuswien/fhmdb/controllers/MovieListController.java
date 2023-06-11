@@ -251,7 +251,7 @@ public class MovieListController implements Initializable, Observer {
         }*/
         //Wenn nicht sortiert, dann soll es auch unsortiert bleiben
         if (!(state instanceof InitState)) {
-            new AscendingState(this).sort();
+            new InitState(this).sort();
         }
     }
 

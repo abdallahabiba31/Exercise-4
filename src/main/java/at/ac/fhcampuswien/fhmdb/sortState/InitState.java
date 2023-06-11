@@ -13,7 +13,7 @@ public class InitState extends MovieState{
 
     @Override
     public void sort() {
-       // currentStateData.observableMovies.sort(Comparator.comparing(Movie::getTitle));
+        currentStateData.observableMovies.sort(Comparator.comparing(Movie::getTitle));
         currentStateData.setState(new AscendingState(currentStateData));
     }
 }
